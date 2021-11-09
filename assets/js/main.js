@@ -1,18 +1,31 @@
 const app = new Vue({
     el: '#root',
     data: {
-        generatedEmail: '',
-        emails: []
+        emails: [],
+        emailContainer: []
     },
-    mounted() {
-        for (let index = 0; index < 10; index++) {
+    methods: {
+        generateEmail() {
             axios
                 .get('https://flynn.boolean.careers/exercises/api/random/mail')
                 .then(response => {
-                    generateEmail = { email: response.data.response }
-                    this.emails.push(generateEmail)
+                    let email = { email: response.data.response }
+                    this.emailContainer.push(email)
                 })
         }
-    }
+    },
+    mounted() {
+        for (let index = 0; index < 10; index++) {
+            this.generateEmail()
+        }
+
+        setTimeout(function () {
+            app.emails.push(app.emailContainer)
+
+        }, 500)
+
+
+
+    },
 
 })
